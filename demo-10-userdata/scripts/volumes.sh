@@ -2,8 +2,11 @@
 
 set -ex 
 
+# lvm2 is installed by init.cfg, so 
+# refresh the lvm state to see if volumes are present.
 vgchange -ay
 
+# If there is no filesystem on this volume, format it as ext4.
 DEVICE_FS=`blkid -o value -s TYPE ${DEVICE} || echo ""`
 if [ "`echo -n $DEVICE_FS`" == "" ] ; then 
   # wait for the device to be attached
